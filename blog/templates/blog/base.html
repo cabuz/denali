@@ -1,26 +1,26 @@
 {% load staticfiles %}
 <html>
     <head>
-        <title>Denali Planning</title>
+        <title>Denali Games</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        <link rel="stylesheet" href="{% static 'css/blog.scss' %}">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="{% static 'js/game.js' %}"></script>
     </head>
     <body>
-    <div class="page-header">
-        {% if user.is_authenticated %}
-            <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-        {% endif %}
-        <h1><a href="/">Denali Planning</a></h1>
-    </div>
-    <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
-            {% block content %}
-            {% endblock %}
+        <div class="page-header">
+            <a href="{% url 'game' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+            <h1><a href="/">Denali Games</a></h1>
+        </div>
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                {% block content %}
+                {% endblock %}
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

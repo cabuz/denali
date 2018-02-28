@@ -1,0 +1,151 @@
+$background: #FF9090;
+$deck-background: #FFFA62;
+$card-background: #FFCF7F;
+$card_opend-background: #89C4FF;
+$card_match-background: #9BCB3C;
+$card_notmatch-background: #EE0E51;
+
+h1 a {
+    color: #FCA205;
+    font-family: 'Lobster', sans-serif, Arial;
+}
+
+canvas {
+  border-radius: .4em;
+}
+
+.page-header {
+    background-color: #ff9400;
+    margin-top: 0;
+    padding: 20px 20px 20px 40px;
+}
+
+.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
+    color: #ffffff;
+    font-size: 36pt;
+    text-decoration: none;
+}
+
+.content {
+    margin-left: 40px;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Lobster', cursive;
+}
+
+.date {
+    color: #828282;
+}
+
+.save {
+    float: right;
+}
+
+.post-form textarea, .post-form input {
+    width: 100%;
+}
+
+.top-menu, .top-menu:hover, .top-menu:visited {
+    color: #ffffff;
+    float: right;
+    font-size: 26pt;
+    margin-right: 20px;
+}
+
+.post {
+    margin-bottom: 70px;
+}
+
+.post h1 a, .post h1 a:visited {
+    color: #000000;
+}
+
+.deck {
+	width: 345px;
+	margin: 0 auto;
+	background: $deck-background;
+	padding: 16px;
+	border-radius: 10px;
+	box-shadow: 14px 14px 0 0 #000000;
+
+	.card {
+		height: 75px;
+		width: 75px;
+		background: $card-background;
+		display: inline-block;
+		margin: 0 15px 15px 0;
+		line-height: 140px;
+		font-size: 0;
+		color: #ffffff;
+		text-align: center;
+		border-radius: 8px;
+		vertical-align: top;
+		cursor: pointer;
+		transform: rotateY(180deg);
+		transform-style: preserve-3d;
+		transition: transform .3s ease;
+		font-family: 'Lobster', sans-serif, Arial;
+		line-height: 75px;
+
+		&:nth-child(4n) {
+			margin: 0 0 15px 0;
+		}
+
+		&:nth-child(n+13) {
+			margin: 0 15px 0 0;
+
+			&:nth-child(4n) {
+				margin: 0;
+			}
+		}
+
+		&.open {
+			transform: rotateY(0);
+			background: $card_opend-background;
+			cursor: default;
+		}
+		&.show {
+			font-size: 33px;
+		}
+
+		&.match {
+			transform: rotateY(0);
+			cursor: default;
+			background: $card_match-background;
+			font-size: 33px;
+		}
+
+		&.notmatch {
+			background: $card_notmatch-background;
+		}
+	}
+}
+#score-panel {
+	text-align: left;
+	width: 345px;
+	margin-bottom: 10px;
+
+	.stars {
+		margin: 0;
+		padding: 0;
+		display: inline-block;
+		margin: 0 5px 0 0;
+
+		li {
+			list-style: none;
+			display: inline-block;
+		}
+	}
+	.restart {
+		float: right;
+		cursor: pointer;
+	}
+}
+*::selection {
+	background: transparent;
+}
+
+.swal2-overlay {
+	background-color: rgba(255,255,255,1);
+}

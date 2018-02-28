@@ -41,3 +41,15 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
+
+
+def game(request):
+    return render(request, 'blog/game.html')
+
+
+def home(request):
+    return render(request, 'blog/home.html')
+
+
+
+
