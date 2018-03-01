@@ -51,5 +51,11 @@ def home(request):
     return render(request, 'blog/home.html')
 
 
+def game2(request):
+    return render(request, 'blog/game2.html')
+
+
+
+
 
 

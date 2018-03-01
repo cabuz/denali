@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^post/(?P<pk>\d+)/edit/$', views.post_edit, name='post_edit'),
     url(r'^game/$', views.game, name='game'),
     url(r'^home/$', views.home, name='home'),
+    url(r'^game2/$', views.game2, name='game2'),
 ]

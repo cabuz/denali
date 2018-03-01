@@ -10,6 +10,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script src="{% static 'js/game.js' %}"></script>
+        <script src="{% static 'js/game2.js' %}"></script>
     </head>
     <body>
         <div class="page-header">
@@ -22,7 +23,7 @@
                 <a href="{% url 'game' %}" class="top-menu dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-play"></span></a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{% url 'game' %}">Drive</a>
-                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="{%  url 'game2' %}">Help Pickle Rick!</a>
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </div>

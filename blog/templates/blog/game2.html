@@ -1,0 +1,201 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Denali Games</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/blog.scss' %}">
+        <link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+{#        <script src="{% static 'js/game.js' %}"></script>#}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" http-equiv="Content-Type" charset=ISO-8859-1">
+        <style>
+            canvas {
+                border:1px solid #d3d3d3;
+                background-image: url("https://c2.staticflickr.com/6/5645/23092085922_bbabaf9808_o.png");
+                background-size: 480px 270px;
+            }
+        </style>
+         <script type="text/javascript">
+
+                var myGamePiece;
+                var myObstacles = [];
+                var myScore;
+
+                function startGame() {
+                    window.addEventListener('keydown', moveSelection);
+                    myGamePiece = new component(30, 30, "pink", 10, 120);
+                    myGamePiece.gravity = 0.05;
+                    myScore = new component("30px", "Lobster", "black", 280, 40, "text");
+                    myGameArea.start();
+                }
+
+                var myGameArea = {
+                    canvas : document.createElement("canvas"),
+                    start : function() {
+                        this.canvas.width = 480;
+                        this.canvas.height = 270;
+                        this.context = this.canvas.getContext("2d");
+                        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+                        this.frameNo = 0;
+                        this.interval = setInterval(updateGameArea, 20);
+                        },
+                    clear : function() {
+                        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    }
+                }
+
+                function component(width, height, color, x, y, type) {
+                    this.type = type;
+                    this.score = 0;
+                    this.width = width;
+                    this.height = height;
+                    this.speedX = 0;
+                    this.speedY = 0;
+                    this.x = x;
+                    this.y = y;
+                    this.gravity = 0;
+                    this.gravitySpeed = 0;
+                    this.update = function() {
+                        ctx = myGameArea.context;
+                        if (this.type == "text") {
+                            ctx.font = this.width + " " + this.height;
+                            ctx.fillStyle = color;
+                            ctx.fillText(this.text, this.x, this.y);
+                        } else {
+                            ctx.fillStyle = color;
+                            ctx.fillRect(this.x, this.y, this.width, this.height);
+                        }
+                    };
+                    this.newPos = function() {
+                        this.gravitySpeed += this.gravity;
+                        this.x += this.speedX;
+                        this.y += this.speedY + this.gravitySpeed;
+                        this.hitBottom();
+                    };
+                    this.hitBottom = function() {
+                        var rockbottom = myGameArea.canvas.height - this.height;
+                        if (this.y > rockbottom) {
+                            this.y = rockbottom;
+                            this.gravitySpeed = 0;
+                        }
+                    };
+                    this.crashWith = function(otherobj) {
+                        var myleft = this.x;
+                        var myright = this.x + (this.width);
+                        var mytop = this.y;
+                        var mybottom = this.y + (this.height);
+                        var otherleft = otherobj.x;
+                        var otherright = otherobj.x + (otherobj.width);
+                        var othertop = otherobj.y;
+                        var otherbottom = otherobj.y + (otherobj.height);
+                        var crash = true;
+                        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+                            crash = false;
+                        }
+                        return crash;
+                    }
+                }
+
+                function leftArrowPressed() {
+                var element = document.getElementById("image1");
+                element.style.left = parseInt(element.style.left) - 5 + 'px';
+                }
+
+                function rightArrowPressed() {
+                var element = document.getElementById("image1");
+                element.style.left = parseInt(element.style.left) + 5 + 'px';
+
+                }
+
+                function upArrowPressed() {
+                var element = document.getElementById("image1");
+                element.style.top = parseInt(element.style.top) - 5 + 'px';
+                }
+
+                function downArrowPressed() {
+                var element = document.getElementById("image1");
+                element.style.top = parseInt(element.style.top) + 5 + 'px';
+                }
+
+                function moveSelection(evt) {
+                    switch (evt.keyCode) {
+                        case 37:
+                        leftArrowPressed();
+                        break;
+                        case 39:
+                        rightArrowPressed();
+                        break;
+                        case 38:
+                        upArrowPressed();
+                        break;
+                        case 40:
+                        downArrowPressed();
+                        break;
+                        }
+                    }
+
+
+                function updateGameArea() {
+                    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+                    for (i = 0; i < myObstacles.length; i += 1) {
+                        if (myGamePiece.crashWith(myObstacles[i])) {
+                            return;
+                        }
+                    }
+                    myGameArea.clear();
+                    myGameArea.frameNo += 1;
+                    if (myGameArea.frameNo == 1 || everyinterval(150)) {
+                        x = myGameArea.canvas.width;
+                        minHeight = 20;
+                        maxHeight = 200;
+                        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+                        minGap = 50;
+                        maxGap = 200;
+                        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+                        myObstacles.push(new component(10, height, "orange", x, 0));
+                        myObstacles.push(new component(10, x - height - gap, "orange", x, height + gap));
+                    }
+                    for (i = 0; i < myObstacles.length; i += 1) {
+                        myObstacles[i].x += -1;
+                        myObstacles[i].update();
+                    }
+                    myScore.text="score: " + myGameArea.frameNo;
+                    myScore.update();
+                    myGamePiece.newPos();
+                    myGamePiece.update();
+                }
+
+                function everyinterval(n) {
+                    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+                    return false;
+                }
+                function accelerate(n) {
+                    myGamePiece.gravity = n;
+                }
+                window.onload = startGame;
+            </script>
+    </head>
+    <body onload="startGame()">
+        <div class="page-header">
+            <!--<a href="{% url 'game' %}" class="top-menu" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-play"></span></a>-->
+            <h1><a href="/">Denali Games</a></h1>
+            <div class="dropdown">
+              <!--<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                   <!--<a href="{% url 'game' %}" class="top-menu"><span class="glyphicon glyphicon-play"></span></a>-->
+              <!--</button>-->
+                <a href="{% url 'game' %}" class="top-menu dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-play"></span></a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{% url 'game' %}">Drive</a>
+                <a class="dropdown-item" href="{% url 'game2' %}">Help Pickle Rick!</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+        </div>
+        <div class="content container">
+
+        </div>
+    </body>
+</html>
